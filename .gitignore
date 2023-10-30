@@ -1,0 +1,8 @@
+node_modules/
+dist/
+src/scss/
+src/index.html
+
+webpack.config.js
+package-lock.json
+package.json
