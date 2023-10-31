@@ -124,7 +124,7 @@ class Queue {
         thiis.headIndex = 0;
         this.tailIndex = 0;
     }
-}
+};
 
 // Builds a simple 2D array
 const buildBoard = () => {
@@ -135,7 +135,7 @@ const buildBoard = () => {
         }
     }
     return board;
-}
+};
 
 const findIndex = (arr, target) => {
     for(let i = 0; i < arr.length; i++) {
@@ -144,7 +144,7 @@ const findIndex = (arr, target) => {
         }
     }
     return null;
-}
+};
 
 const buildMapArr = (array, startIndex) => {
     const newArr = [];
@@ -156,19 +156,49 @@ const buildMapArr = (array, startIndex) => {
     }
     newArr[startIndex].set("distance", 0);
     return newArr;
+};
+
+const nextMove = (index, x, y) => {
+    // There are eight possible moves (when ignoring if on board) - the order here doesn't matter,
+    // as the index here just means "possible move number [j]:"
+    if(index == 0) return [x + 1, y + 2];
+    if(index == 1) return [x + 2, y + 1];
+    if(index == 2) return [x - 1, y - 2];
+    if(index == 3) return [x - 2, y - 1];
+    if(index == 4) return [x - 2, y + 1];
+    if(index == 5) return [x - 1, y + 2];
+    if(index == 6) return [x + 1, y - 2];
+    if(index == 7) return [x + 2, y - 1];
 }
+
+const legalMove = (array, target) => {
+    if(array.find((element) => element[0] == target[0] && 
+    element[1] == [target[1]])) {
+        return true;
+       }
+};
+
+const buildAdjList = (board) => {
+    const adjList = [];
+    for(let i = 0; i < 8; i++) {
+        const community = [];
+        for(let j = 0; j < 8; j++) {
+            const neighbour = nextMove(j, board[i][0], board[i][1]);
+            if(legalMove(board, neighbour)) {
+
+            }
+        }
+    }
+};
 
 const knightMoves = (start, end) => {
     const board = buildBoard();
     // Find the index of the start and end coordinates
     const startIndex = findIndex(board, start);
     const endIndex = findIndex(board, end);
-    // For testing
-    console.log(startIndex);
-    console.log(endIndex);
-
     const bfsMap = buildMapArr(board, startIndex);
     console.log(bfsMap);
+    const adjList = buildAdjList(board);
 
 }
 
