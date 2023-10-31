@@ -19,6 +19,10 @@ All moves are conditional of x and y being < -1 && > 8:
 ||    x + 1, y + 2,
 ||    x - 2, y - 1,
 ||    x - 1, y - 2
+
+^^^^^^^^^^^^^^^^^^^^^^
+This is on the right path, but it is probably better to actually represent this through a simple function rather than a class, since we are only ever 
+going to have one knight - so don't need to keep implementing them
 ______________________________________________
 Traversing the board:
 We need to create relationships with each square on the chess board. We can do this via a GRAPH (probably an undirected graph):
@@ -33,7 +37,9 @@ The algorithm will need to traverse each possible path and keep track of each mo
 1) We need to know where we are starting and where we are going
     We need to find the starting coordinates within the array
     We need to find the end coordinates within the array
-
+2) Traversing the board
+    Either via breadth or depth first search. Breadth probably makes more sense, really - since we can increment a COUNTER and as soon as the end point
+    is reached, the COUNTER stops and returns (along with the given PATH).
     
 ______________________________________________
 Passing a move:
@@ -69,6 +75,18 @@ const findIndex = (arr, target) => {
     return null;
 }
 
+const buildMapArr = (array, startIndex) => {
+    const newArr = [];
+    for(let i = 0; i < array.length; i++) {
+        // Experimenting with Map() - could also create object for each newArr[i]
+        newArr[i] = new Map();
+        newArr[i].set("distance", null);
+        newArr[i].set("predecessor", null);
+    }
+    newArr[startIndex].set("distance", 0);
+    return newArr;
+}
+
 const knightMoves = (start, end) => {
     const board = buildBoard();
     // Find the index of the start and end coordinates
@@ -77,6 +95,10 @@ const knightMoves = (start, end) => {
     // For testing
     console.log(startIndex);
     console.log(endIndex);
+
+    const bfsMap = buildMapArr(board, startIndex);
+    console.log(bfsMap);
+
 }
 
-knightMoves([7, 7], [3, 1]);
+knightMoves([1, 3], [3, 1]);
