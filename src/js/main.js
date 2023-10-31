@@ -40,7 +40,36 @@ The algorithm will need to traverse each possible path and keep track of each mo
 2) Traversing the board
     Either via breadth or depth first search. Breadth probably makes more sense, really - since we can increment a COUNTER and as soon as the end point
     is reached, the COUNTER stops and returns (along with the given PATH).
-    
+
+==============================================
+The Breadth-First Search (BFS) algorithm
+==============================================
+Two values are asigned to each vertex (the elements in the graph):
+A DISTANCE, giving the minimum number of edges in any path from the source vertex to the end vertex
+The PREDECESSOR vertex along some shortest path from the source vertex. When null, it has no predecessor.
+
+If there is NO path from the start to the end, then the distance is infinite (and the predecessor is the same value as the 
+start's - i.e. null). Here, we represent this via the two numbers [distance, predecessor]. The numbers above are the index
+of the numbers - 3 is our start (or source):
+(3)             (2)             (3)
+[0, -] ------- [1, 3] ------- [2, 2]
+
+So, take index (2) - [1] is the distance from (3), whereas [3] is the last node (or vertex) we visited, which is, of course, the 
+source vertex, (3).
+
+So:
+    (buildMapArr()) We set the distance of the source to 0. The predecessor will remain null. This provides us with the information 
+    needed.
+    We need to define the moves that can be made (i.e. x + 2 && y + 1 || x + 1 && y + 2 etc.).
+    We run through the posibilities - iterating over the board, calculating the distance and storing the predecessor one at a 
+    time (these are just those whose distance is ONE and have not been VISITED before).
+        Then we recursively call this, to distances of 2, 3, etc. until we reach the end index.
+        (We can determine whether a vertex has been visited if it's distance is still null - if !null, it has already been visited!)
+
+        We also need to queue a vertex when we visit it (enqueue). The source (or start) is first enqueued. It is then dequeued, because
+        that is the end of the first search through vertices with distance = 0. 
+            WHEN WE DEQUEUE an item, we then ENQUEUE it's neightbours (if they have not been visited!).
+            
 ______________________________________________
 Passing a move:
 We want to pass in the following information into the call:
