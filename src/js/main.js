@@ -84,6 +84,48 @@ Information on graphs:  https://www.geeksforgeeks.org/graph-data-structure-and-a
 =========================================================================================================================================================================
 */
 
+class Queue {
+    constructor() {
+        this.items = new Map();
+        this.headIndex = 0;
+        this.tailIndex = 0;
+    }
+
+    enqueue(element) {
+        this.items[this.tailIndex] = element;
+        this.tailIndex++;
+    }
+
+    dequeue() {
+        const removedElement = this.items[this.headIndex];
+        delete this.items[this.headIndex];
+        this.headIndex++;
+        return removedElement;
+    }
+
+    peek() {
+        const peekElement = this.items[this.headIndex];
+        return peekElement;
+    }
+
+    size() {
+        return this.tailIndex - this.headIndex;
+    }
+
+    isEmpty() {
+        if(this.tailIndex - this.headIndex == 0) {
+            return true;
+        }
+        return false;
+    }
+
+    clear() {
+        this.items = {};
+        thiis.headIndex = 0;
+        this.tailIndex = 0;
+    }
+}
+
 // Builds a simple 2D array
 const buildBoard = () => {
     let board = [];
