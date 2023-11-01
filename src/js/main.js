@@ -175,20 +175,23 @@ const legalMove = (array, target) => {
     if(array.find((element) => element[0] == target[0] && 
     element[1] == [target[1]])) {
         return true;
-       }
+    }
+    return false;
 };
 
 const buildAdjList = (board) => {
-    const adjList = [];
-    for(let i = 0; i < 8; i++) {
+    let adjList = [];
+    for(let i = 0; i < board.length; i++) {
         const community = [];
         for(let j = 0; j < 8; j++) {
             const neighbour = nextMove(j, board[i][0], board[i][1]);
             if(legalMove(board, neighbour)) {
-
+                community.push(findIndex(board, neighbour));
             }
         }
+        adjList[i] = community;
     }
+    return adjList;
 };
 
 const knightMoves = (start, end) => {
@@ -197,9 +200,10 @@ const knightMoves = (start, end) => {
     const startIndex = findIndex(board, start);
     const endIndex = findIndex(board, end);
     const bfsMap = buildMapArr(board, startIndex);
-    console.log(bfsMap);
+    // console.log(bfsMap);
     const adjList = buildAdjList(board);
+    console.log(adjList);
 
 }
 
-knightMoves([1, 3], [3, 1]);
+knightMoves([1, 7], [1, 2]);
