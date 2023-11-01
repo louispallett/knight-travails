@@ -203,7 +203,36 @@ const knightMoves = (start, end) => {
     // console.log(bfsMap);
     const adjList = buildAdjList(board);
     console.log(adjList);
+    const queue = new Queue();
+    // Enqueue the source index
+    queue.enqueue(startIndex);
+    // This will be our 'visited' node
+    let u;
+
+    while(u != endIndex) {
+        // Set u equal to the 'visited' node
+        u = queue.dequeue();
+        // Loop through the possible moves of u
+        for(let i = 0; i < adjList[u].length; i++) {
+            // We need to get the value at adjList (which is the full list of neighbours) for the neighbouring 
+            // indexes for index u
+            const indexOfV = adjList[u][i]; // Possible moves to index for u
+            console.log(adjList[u][i]);
+            console.log(bfsMap[indexOfV].get("distance"))
+            if(indexOfV == endIndex) {
+                const path = [];
+
+            } else if(bfsMap[indexOfV].get("distance") === null) {
+                // This condition means we haven't visited it yet!
+                bfsMap[indexOfV].set("distance", bfsMap[u].get("distance") + 1);
+                bfsMap[indexOfV].set("predecessor", u);
+                queue.enqueue(indexOfV);
+            }
+        }
+        return;
+    }
+
 
 }
 
-knightMoves([1, 7], [1, 2]);
+// knightMoves([3, 7], [5, 2]);
