@@ -121,7 +121,7 @@ class Queue {
 
     clear() {
         this.items = {};
-        thiis.headIndex = 0;
+        this.headIndex = 0;
         this.tailIndex = 0;
     }
 };
@@ -139,11 +139,10 @@ const buildBoard = () => {
 
 const findIndex = (arr, target) => {
     for(let i = 0; i < arr.length; i++) {
-        if(arr[i][0] === target[0] && arr[i][1] === target[1]) {
+        if(arr[i][0] == target[0] && arr[i][1] == target[1]) {
             return i;
         }
     }
-    return null;
 };
 
 const buildMapArr = (array, startIndex) => {
@@ -195,12 +194,11 @@ const buildAdjList = (board) => {
 };
 
 const buildPath = (board, bfsMap, element, index, path) => {
-    if(bfsMap[element].get("predecessor") === null) {
-        return;
-    } else {
-        newArr.push(board[index]);
-        constructPath(board, bfsMap, bfsMap[element].get("predecessor"), element.predecessor, path);
-    }
+    if (element.get("predecessor") === null) return;
+    // if (element.get("predecessor") !== null) {
+    path.push(board[index]);
+    buildPath(board, bfsMap, bfsMap[element.get("predecessor")], element.get("predecessor"), path);
+    // }
 }
 
 const knightMoves = (start, end) => {
@@ -218,7 +216,7 @@ const knightMoves = (start, end) => {
     // This will be our 'visited' node
     let u;
 
-    while(u != endIndex) {
+    while(u !== endIndex) {
         // Set u equal to the 'visited' node
         u = queue.dequeue();
         // Loop through the possible moves of u
@@ -226,24 +224,21 @@ const knightMoves = (start, end) => {
             // We need to get the value at adjList (which is the full list of neighbours) for the neighbouring 
             // indexes for index u
             const indexOfV = adjList[u][i]; // Possible moves to index for u
-            console.log(adjList[u][i]);
-            console.log(bfsMap[indexOfV].get("distance"))
-            if(indexOfV == endIndex) {
+            if(indexOfV === endIndex) {
                 const path = [];
-                const test = buildPath(board, bfsMap, bfsMap[indexOfV].get("predecessor"), indexOfV, path);
-                console.log(test);
-                result = path.reverse().splice(0,0,start);
+                bfsMap[indexOfV].set("predecessor", u);
+                buildPath(board, bfsMap, bfsMap[indexOfV], indexOfV, path);
+                path.push(start);
                 console.log(`You made it in ${path.length - 1} moves! Here's your path:`);
-                return path;
-                } else if(bfsMap[indexOfV].get("distance") === null) {
+                return path.reverse();
+            } else if(bfsMap[indexOfV].get("distance") === null) {
                 // This condition means we haven't visited it yet!
                 bfsMap[indexOfV].set("distance", bfsMap[u].get("distance") + 1);
                 bfsMap[indexOfV].set("predecessor", u);
                 queue.enqueue(indexOfV);
             }
         }
-        return;
     }
 }
 
-knightMoves([3, 7], [5, 2]);
+console.log(knightMoves([3, 7], [5, 2]));
