@@ -194,6 +194,15 @@ const buildAdjList = (board) => {
     return adjList;
 };
 
+const buildPath = (board, bfsMap, element, index, path) => {
+    if(bfsMap[element].get("predecessor") === null) {
+        return;
+    } else {
+        newArr.push(board[index]);
+        constructPath(board, bfsMap, bfsMap[element].get("predecessor"), element.predecessor, path);
+    }
+}
+
 const knightMoves = (start, end) => {
     const board = buildBoard();
     // Find the index of the start and end coordinates
@@ -202,7 +211,7 @@ const knightMoves = (start, end) => {
     const bfsMap = buildMapArr(board, startIndex);
     // console.log(bfsMap);
     const adjList = buildAdjList(board);
-    console.log(adjList);
+    // console.log(adjList);
     const queue = new Queue();
     // Enqueue the source index
     queue.enqueue(startIndex);
@@ -221,8 +230,12 @@ const knightMoves = (start, end) => {
             console.log(bfsMap[indexOfV].get("distance"))
             if(indexOfV == endIndex) {
                 const path = [];
-
-            } else if(bfsMap[indexOfV].get("distance") === null) {
+                const test = buildPath(board, bfsMap, bfsMap[indexOfV].get("predecessor"), indexOfV, path);
+                console.log(test);
+                result = path.reverse().splice(0,0,start);
+                console.log(`You made it in ${path.length - 1} moves! Here's your path:`);
+                return path;
+                } else if(bfsMap[indexOfV].get("distance") === null) {
                 // This condition means we haven't visited it yet!
                 bfsMap[indexOfV].set("distance", bfsMap[u].get("distance") + 1);
                 bfsMap[indexOfV].set("predecessor", u);
@@ -231,8 +244,6 @@ const knightMoves = (start, end) => {
         }
         return;
     }
-
-
 }
 
-// knightMoves([3, 7], [5, 2]);
+knightMoves([3, 7], [5, 2]);
